@@ -39,10 +39,12 @@
 
 #include "contiki.h"
 #include "httpd-simple.h"
-#include "dev/sht11-sensor.h"
-#include "dev/light-sensor.h"
+//#include "dev/sht11-sensor.h"
+//#include "dev/light-sensor.h"
 #include "dev/leds.h"
 #include <stdio.h>
+
+#include "dev/temperature-sensor.h"
 
 PROCESS(web_sense_process, "Sense Web Demo");
 PROCESS(webserver_nogui_process, "Web server");
@@ -70,13 +72,14 @@ static int sensors_pos;
 static int
 get_light(void)
 {
-  return 10 * light_sensor.value(LIGHT_SENSOR_PHOTOSYNTHETIC) / 7;
+  return 10; // * light_sensor.value(LIGHT_SENSOR_PHOTOSYNTHETIC) / 7;
 }
 /*---------------------------------------------------------------------------*/
 static int
 get_temp(void)
 {
-  return ((sht11_sensor.value(SHT11_SENSOR_TEMP) / 10) - 396) / 10;
+  return temperature_sensor.value(0) / 100;
+  //return 0; //((sht11_sensor.value(SHT11_SENSOR_TEMP) / 10) - 396) / 10;
 }
 /*---------------------------------------------------------------------------*/
 static const char *TOP = "<html><head><title>Contiki Web Sense</title></head><body>\n";
@@ -161,8 +164,9 @@ PROCESS_THREAD(web_sense_process, ev, data)
   sensors_pos = 0;
 
   etimer_set(&timer, CLOCK_SECOND * 2);
-  SENSORS_ACTIVATE(light_sensor);
-  SENSORS_ACTIVATE(sht11_sensor);
+  //SENSORS_ACTIVATE(light_sensor);
+  //SENSORS_ACTIVATE(sht11_sensor);
+  SENSORS_ACTIVATE(temperature_sensor);
 
   while(1) {
     PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&timer));
