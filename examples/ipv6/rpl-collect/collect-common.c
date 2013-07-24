@@ -112,7 +112,7 @@ PROCESS_THREAD(collect_common_process, ev, data)
   collect_common_net_init();
 
   /* Send a packet every 60-62 seconds. */
-  etimer_set(&period_timer, CLOCK_SECOND * PERIOD);
+  etimer_set(&period_timer, CLOCK_SECOND * 10);
   while(1) {
     PROCESS_WAIT_EVENT();
     if(ev == serial_line_event_message) {
@@ -156,7 +156,7 @@ PROCESS_THREAD(collect_common_process, ev, data)
     if(ev == PROCESS_EVENT_TIMER) {
       if(data == &period_timer) {
         etimer_reset(&period_timer);
-        etimer_set(&wait_timer, random_rand() % (CLOCK_SECOND * RANDWAIT));
+        etimer_set(&wait_timer, CLOCK_SECOND); //random_rand() % (CLOCK_SECOND * RANDWAIT));
       } else if(data == &wait_timer) {
         if(send_active) {
           /* Time to send the data */
