@@ -48,6 +48,8 @@
 #include "net/uip-ds6.h"
 #include "net/uip-packetqueue.h"
 
+#if UIP_CONF_IPV6
+
 #define DEBUG DEBUG_NONE
 #include "net/uip-debug.h"
 
@@ -202,6 +204,15 @@ uip_ds6_periodic(void)
       locnbr++) {
     if(locnbr->isused) {
       switch(locnbr->state) {
+      case NBR_REACHABLE:
+        if(stimer_expired(&locnbr->reachable)) {
+          PRINTF("REACHABLE: moving to STALE (");
+          PRINT6ADDR(&locnbr->ipaddr);
+          PRINTF(")\n");
+          locnbr->state = NBR_STALE;
+        }
+        break;
+#if UIP_ND6_SEND_NA
       case NBR_INCOMPLETE:
         if(locnbr->nscount >= UIP_ND6_MAX_MULTICAST_SOLICIT) {
           uip_ds6_nbr_rm(locnbr);
@@ -210,14 +221,6 @@ uip_ds6_periodic(void)
           PRINTF("NBR_INCOMPLETE: NS %u\n", locnbr->nscount);
           uip_nd6_ns_output(NULL, NULL, &locnbr->ipaddr);
           stimer_set(&locnbr->sendns, uip_ds6_if.retrans_timer / 1000);
-        }
-        break;
-      case NBR_REACHABLE:
-        if(stimer_expired(&locnbr->reachable)) {
-          PRINTF("REACHABLE: moving to STALE (");
-          PRINT6ADDR(&locnbr->ipaddr);
-          PRINTF(")\n");
-          locnbr->state = NBR_STALE;
         }
         break;
       case NBR_DELAY:
@@ -244,6 +247,7 @@ uip_ds6_periodic(void)
           stimer_set(&locnbr->sendns, uip_ds6_if.retrans_timer / 1000);
         }
         break;
+#endif /* UIP_ND6_SEND_NA */
       default:
         break;
       }
@@ -592,11 +596,11 @@ uip_ds6_get_global(int8_t state)
 
 /*---------------------------------------------------------------------------*/
 uip_ds6_maddr_t *
-uip_ds6_maddr_add(uip_ipaddr_t *ipaddr)
+uip_ds6_maddr_add(const uip_ipaddr_t *ipaddr)
 {
   if(uip_ds6_list_loop
      ((uip_ds6_element_t *)uip_ds6_if.maddr_list, UIP_DS6_MADDR_NB,
-      sizeof(uip_ds6_maddr_t), ipaddr, 128,
+      sizeof(uip_ds6_maddr_t), (void*)ipaddr, 128,
       (uip_ds6_element_t **)&locmaddr) == FREESPACE) {
     locmaddr->isused = 1;
     uip_ipaddr_copy(&locmaddr->ipaddr, ipaddr);
@@ -617,11 +621,11 @@ uip_ds6_maddr_rm(uip_ds6_maddr_t *maddr)
 
 /*---------------------------------------------------------------------------*/
 uip_ds6_maddr_t *
-uip_ds6_maddr_lookup(uip_ipaddr_t *ipaddr)
+uip_ds6_maddr_lookup(const uip_ipaddr_t *ipaddr)
 {
   if(uip_ds6_list_loop
      ((uip_ds6_element_t *)uip_ds6_if.maddr_list, UIP_DS6_MADDR_NB,
-      sizeof(uip_ds6_maddr_t), ipaddr, 128,
+      sizeof(uip_ds6_maddr_t), (void*)ipaddr, 128,
       (uip_ds6_element_t **)&locmaddr) == FOUND) {
     return locmaddr;
   }
@@ -876,3 +880,4 @@ uip_ds6_compute_reachable_time(void)
 
 
 /** @} */
+#endif /* UIP_CONF_IPV6 */
