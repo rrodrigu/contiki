@@ -14,8 +14,7 @@ CONTIKI_CORE_SOURCEFILES = leds.c sensors.c slip.c
 
 CONTIKI_TARGET_SOURCEFILES += contiki-main.c init-net.c slip_uart0.c
 CONTIKI_TARGET_SOURCEFILES += sensors_power.c
-CONTIKI_TARGET_SOURCEFILES += button-sensor.c leds-arch.c
-CONTIKI_TARGET_SOURCEFILES += adc.c temperature-sensor.c
+CONTIKI_TARGET_SOURCEFILES += leds-arch.c
 
 CONTIKI_TARGET_SOURCEFILES += $(CONTIKI_CORE_SOURCEFILES)
 
