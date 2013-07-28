@@ -9,7 +9,6 @@
 #define SENSORS_POWER_PORT	(PORTG)
 #define SENSORS_POWER_DPORT	(DDRG)
 #define SENSORS_POWER_PIN	(PG0)
-#define SENSORS_POWER_DPIN	(DDG0)
 
 
 void sensors_power_init(void);
