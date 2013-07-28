@@ -3,6 +3,12 @@
 #include <avr/io.h>
 #include "dev/pwr_ctrl.h"
 
+
+#define PWR_CTRL_PORT	(PORTG)
+#define PWR_CTRL_DPORT	(DDRG)
+#define PWR_CTRL_PIN	(PG0)
+
+
 /* init port pin */
 void pwr_ctrl_init(void)
 {
