@@ -7,9 +7,9 @@
 void sensors_power_init(void)
 {
 	/* set pin to output */
-	SENSORS_POWER_DPORT |= _BV(SENSORS_POWER_DPIN);
+	SENSORS_POWER_DPORT |= _BV(SENSORS_POWER_PIN);
 
-	/* set pin low */
+	/* set pin low (shutdown) */
 	sensors_power(0);
 }
 
