@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include "contiki.h"
-#include "dev/sensors_power.h"
+#include "dev/pwr_ctrl.h"
 #include "dev/leds.h"
 
 /*---------------------------------------------------------------------------*/
@@ -17,7 +17,7 @@ PROCESS_THREAD(test_pwrctrl_process, ev, data)
   leds_on(LEDS_GREEN);
   leds_off(LEDS_YELLOW);
 
-  sensors_power_init();
+  pwr_ctrl_init();
 
   while(1) {
     etimer_set(&et, CLOCK_SECOND);
@@ -26,7 +26,7 @@ PROCESS_THREAD(test_pwrctrl_process, ev, data)
     leds_toggle(LEDS_GREEN);
     leds_toggle(LEDS_YELLOW);
 
-    sensors_power(st);
+    pwr_ctrl(st);
     st = ~st;
 
   }
