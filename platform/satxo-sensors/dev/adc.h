@@ -33,7 +33,7 @@ typedef enum {
 
 
 void open_adc(adc_ps_t prescale, adc_ref_t ref);
-uint16_t get_adc(adc_chan_t chan);
+uint16_t read_adc(adc_chan_t chan);
 void close_adc(void);
 
 #endif /* __ADC_H__ */

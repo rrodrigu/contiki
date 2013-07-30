@@ -14,6 +14,7 @@
 
 
 const struct sensors_sensor battery_sensor;
+static uint8_t active;
 
 static void activate(void)
 {
@@ -22,6 +23,8 @@ static void activate(void)
   /* Enable battery sensor reading */
   POWER_MON_ENABLE_DPORT |= _BV(POWER_MON_ENABLE_PIN);
   POWER_MON_ENABLE_PORT |= _BV(POWER_MON_ENABLE_PIN);
+
+  active = 1;
 }
 
 static void deactivate(void)
@@ -29,6 +32,8 @@ static void deactivate(void)
   POWER_MON_ENABLE_PORT &= ~_BV(POWER_MON_ENABLE_PIN);
 
   close_adc();
+
+  active = 0;
 }
 
 static int value(int type)
@@ -68,3 +73,4 @@ static int status(int type)
 
 SENSORS_SENSOR(battery_sensor, BATTERY_SENSOR,
 	       value, configure, status);
+
