@@ -13,7 +13,7 @@ PROCESS_THREAD(test_twi_process, ev, data)
 {
   static struct etimer et;
   static struct twi_msg msg;
-  static uint8_t buf[5];
+  static uint8_t buf[2];
   int8_t ret;
 
   PROCESS_BEGIN();
