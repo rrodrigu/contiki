@@ -16,7 +16,7 @@ void pwr_ctrl_init(void)
 	PWR_CTRL_DPORT |= _BV(PWR_CTRL_PIN);
 
 	/* set pin low (shutdown) */
-	sensors_power(0);
+	pwr_ctrl(0);
 }
 
 /* set port pin */
