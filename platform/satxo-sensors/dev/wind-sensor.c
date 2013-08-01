@@ -40,7 +40,7 @@ clock_time_t last_timer, speed_clk_ticks;
 ISR(INT4_vect)
 {
   clock_time_t tmp_clk = clock_time();
-  speed_clk_ticks = tmp_clk - last_time;
+  speed_clk_ticks = tmp_clk - last_timer;
   last_timer = tmp_clk;
 }
 
@@ -59,7 +59,7 @@ PROCESS_THREAD(wind_speed_process, ev, data)
     etimer_set(&et, CLOCK_SECOND);
     PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
 
-    if ((clock_time() - last_time) > 5 * CLOCK_SECOND)
+    if ((clock_time() - last_timer) > 5 * CLOCK_SECOND)
       /* assume no wind if there is no rotation within 5 sec of last tick */
       wind_speed = 0;
     else
