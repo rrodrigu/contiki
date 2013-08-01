@@ -18,9 +18,6 @@ void twi_init(uint8_t clk_rate)
   default:
     return;
   }
-
-  /* set pins as tristate (is this required?) */
-  //DDRD &= ~(_BV(PD0) | _BV(PD1));
 }
 
 int8_t twi_transfer(struct twi_msg *msg)
