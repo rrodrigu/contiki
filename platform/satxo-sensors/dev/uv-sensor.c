@@ -1,8 +1,8 @@
 #include <avr/io.h>
-#include "dev/humidity-sensor.h"
+#include "dev/uv-sensor.h"
 #include "dev/adc.h"
 
-#define HIH_ADC_CHAN	(ADC_CHAN_ADC4)
+#define UV_ADC_CHAN	(ADC_CHAN_ADC3)
 #define ADC_REF		(ADC_REF_INT16)
 
 const struct sensors_sensor humidity_sensor;
@@ -26,7 +26,7 @@ static int value(int type)
 {
   switch (type) {
   case 0:
-    return read_adc(HIH_ADC_CHAN);
+    return read_adc(UV_ADC_CHAN);
   default:
     return 0;
   }
@@ -55,6 +55,6 @@ static int status(int type)
   return 0;
 }
 
-SENSORS_SENSOR(humidity_sensor, HUMIDITY_SENSOR,
+SENSORS_SENSOR(uv_sensor, UV_SENSOR,
 	       value, configure, status);
 

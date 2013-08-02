@@ -163,7 +163,7 @@ void initialize(void)
   watchdog_init();
   watchdog_start();
   leds_init();
-  leds_off(LEDS_YELLOW);
+  leds_on(LEDS_YELLOW);
   leds_on(LEDS_GREEN);
 
   clock_prescale_set(0);

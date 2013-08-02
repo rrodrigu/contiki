@@ -18,11 +18,11 @@ static uint8_t active;
 
 static void activate(void)
 {
-  open_adc(ADC_PS_64, ADC_REF);
+  /* open_adc(ADC_PS_64, ADC_REF); */
 
   /* Enable battery sensor reading */
   POWER_MON_ENABLE_DPORT |= _BV(POWER_MON_ENABLE_PIN);
-  POWER_MON_ENABLE_PORT |= _BV(POWER_MON_ENABLE_PIN);
+  POWER_MON_ENABLE_PORT  |= _BV(POWER_MON_ENABLE_PIN);
 
   active = 1;
 }
@@ -31,7 +31,7 @@ static void deactivate(void)
 {
   POWER_MON_ENABLE_PORT &= ~_BV(POWER_MON_ENABLE_PIN);
 
-  close_adc();
+  /* close_adc(); */
 
   active = 0;
 }

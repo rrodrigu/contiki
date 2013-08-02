@@ -1,5 +1,6 @@
 #include "contiki.h"
 #include "dev/leds.h"
+#include "dev/adc.h"
 #include "dev/battery-sensor.h"
 #include <stdio.h>
 
@@ -28,11 +29,13 @@ PROCESS_THREAD(test_battery_process, ev, data)
   leds_on(LEDS_GREEN);
 
   while(1) {
-    SENSORS_ACTIVATE(battery_sensor);
-
     etimer_set(&et, CLOCK_SECOND / 2);
     PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
     leds_off(LEDS_GREEN);
+
+    SENSORS_ACTIVATE(battery_sensor);
+    /* enable adc */
+    open_adc(ADC_PS_64, ADC_REF_INT16);
 
     i = battery_sensor.value(0);
     mv = (i * 1.600 * 3) / 1024;
@@ -45,6 +48,7 @@ PROCESS_THREAD(test_battery_process, ev, data)
 	   (unsigned) ((mv - floor(mv)) * 1000));
 
     SENSORS_DEACTIVATE(battery_sensor);
+    close_adc();
 
     etimer_set(&et, CLOCK_SECOND * 4 + CLOCK_SECOND / 2);
     PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));

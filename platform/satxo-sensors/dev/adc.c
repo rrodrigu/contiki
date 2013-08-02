@@ -1,9 +1,14 @@
 #include <avr/io.h>
 #include "dev/adc.h"
 
+static uint8_t opened = 0;
 
 void open_adc(adc_ps_t prescale, adc_ref_t ref)
 {
+  if (opened)
+    return;
+  opened = 1;
+
   /* Configure clock prescale and voltage reference */
   ADCSRA = prescale;
   ADMUX = (uint8_t) ref;
@@ -37,6 +42,7 @@ uint16_t read_adc(adc_chan_t chan)
 
 void close_adc(void)
 {
+  opened = 0;
   /* Disable ADC. */
   ADCSRA &= ~_BV(ADEN);
 }

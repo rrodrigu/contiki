@@ -78,7 +78,7 @@ PROCESS_THREAD(wind_speed_process, ev, data)
 static void activate(void)
 {
   /* wind direction init */
-  open_adc(ADC_PS_64, ADC_REF);
+  /* open_adc(ADC_PS_64, ADC_REF); */
 
 
   /* wind speed init */
@@ -100,7 +100,7 @@ static void activate(void)
 
 static void deactivate(void)
 {
-  close_adc();
+  /* close_adc(); */
 
   /* disable int4 */
   EIMSK &= ~_BV(INT4);
