@@ -33,10 +33,14 @@ PROCESS_THREAD(rain_gauge_process, ev, data)
     if ((clock_time() - last_timer) > 60 * CLOCK_SECOND) {
       /* assume no rain if inactive for 60 sec */
       rain_gauge = 0;
-      last_timer = clock_time();
+      rain_clk_ticks = 0;
+      //last_timer = clock_time();
     } else
       /* in ticks / 60s */
-      rain_gauge = (CLOCK_SECOND * 60) / rain_clk_ticks;
+      if (rain_clk_ticks > 0)
+        rain_gauge = (CLOCK_SECOND * 60) / rain_clk_ticks;
+      else
+        rain_gauge = 0;
   }
 
   PROCESS_END();
