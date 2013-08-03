@@ -15,7 +15,6 @@ ISR(INT5_vect)
   clock_time_t tmp_clk = clock_time();
   rain_clk_ticks = tmp_clk - last_timer;
   last_timer = tmp_clk;
-  printf("*\n");
 }
 
 
@@ -31,10 +30,11 @@ PROCESS_THREAD(rain_gauge_process, ev, data)
     etimer_set(&et, CLOCK_SECOND);
     PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
 
-    if ((clock_time() - last_timer) > 60 * CLOCK_SECOND)
+    if ((clock_time() - last_timer) > 60 * CLOCK_SECOND) {
       /* assume no rain if inactive for 60 sec */
       rain_gauge = 0;
-    else
+      last_timer = clock_time();
+    } else
       /* in ticks / 60s */
       rain_gauge = (CLOCK_SECOND * 60) / rain_clk_ticks;
   }
