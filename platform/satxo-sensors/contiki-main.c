@@ -72,10 +72,6 @@
 
 #include "net/rime.h"
 
-
-
-
-
 #include <init-net.h>
 
 
@@ -226,9 +222,3 @@ main(void)
   return 0;
 }
 
-/*---------------------------------------------------------------------------*/
-
-void log_message(char *m1, char *m2)
-{
-  PRINTF("%s%s\n", m1, m2);
-}
