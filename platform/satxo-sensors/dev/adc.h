@@ -1,6 +1,8 @@
 #ifndef __ADC_H__
 #define __ADC_H__
 
+#include <avr/io.h>
+
 typedef enum {
     ADC_PS_2   = ((0<<ADPS2)|(0<<ADPS1)|(1<<ADPS0)),
     ADC_PS_4   = ((0<<ADPS2)|(1<<ADPS1)|(0<<ADPS0)),
