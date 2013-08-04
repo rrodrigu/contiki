@@ -164,9 +164,9 @@ void initialize(void)
 
   clock_prescale_set(0);
   
-  rs232_init(RS232_PORT_0, USART_BAUD_38400,USART_PARITY_NONE | USART_STOP_BITS_1 | USART_DATA_BITS_8);
-  rs232_redirect_stdout(RS232_PORT_0);
-  rs232_set_input(RS232_PORT_0, serial_line_input_byte);
+  rs232_init(RS232_PORT_1, USART_BAUD_38400,USART_PARITY_NONE | USART_STOP_BITS_1 | USART_DATA_BITS_8);
+  rs232_redirect_stdout(RS232_PORT_1);
+  rs232_set_input(RS232_PORT_1, serial_line_input_byte);
 
   
   clock_init();
