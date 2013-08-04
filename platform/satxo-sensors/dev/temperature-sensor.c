@@ -43,6 +43,8 @@ static int configure(int type, int c)
     }
   };
 
+  twi_init(TWI_CLK100);
+
   ret = twi_transfer(&msg[0]);
   if (ret < 0)
     return ret;
