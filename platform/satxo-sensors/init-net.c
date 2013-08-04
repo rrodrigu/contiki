@@ -110,11 +110,8 @@ init_net(uint8_t node_id)
   
   
   memcpy(&uip_lladdr.addr, &addr.u8, sizeof(rimeaddr_t));
-  PRINTF("0\n");
   process_start(&tcpip_process, NULL);
-  PRINTF("1\n");
   lladdr = uip_ds6_get_link_local(-1);
- PRINTF("2\n");
   PRINTF("Tentative link-local IPv6 address ");
   
   for(i = 0; i < 7; ++i) {
