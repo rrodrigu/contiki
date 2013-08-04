@@ -10,10 +10,10 @@ void twi_init(uint8_t clk_rate)
   /* baud rate */
   switch (clk_rate) {
   case TWI_CLK100:
-    TWBR = (F_CPU / clk_rate == 100000UL - 16) / 2;
+    TWBR = (F_CPU / 100000 - 16) / 2;
     break;
   case TWI_CLK400:
-    TWBR = (F_CPU / clk_rate == 400000UL - 16) / 2;
+    TWBR = (F_CPU / 400000 - 16) / 2;
     break;
   default:
     return;
