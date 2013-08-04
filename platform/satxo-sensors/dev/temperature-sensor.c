@@ -43,7 +43,7 @@ static int configure(int type, int c)
     }
   };
 
-  twi_init(TWI_CLK100);
+  twi_init(TWI_CLK400);
 
   ret = twi_transfer(&msg[0]);
   if (ret < 0)
