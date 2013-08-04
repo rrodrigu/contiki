@@ -7,6 +7,11 @@ void twi_init(uint8_t clk_rate)
   /* set clock rate */
   /* prescaler = 1 */
   TWSR = 0;
+
+  /* clear interrupt flag and disable interrupts */
+  TWCR &= ~_BV(TWIE);
+  TWCR |= _BV(TWINT) | _BV(TWEN);
+
   /* baud rate */
   switch (clk_rate) {
   case TWI_CLK100:
@@ -22,18 +27,17 @@ void twi_init(uint8_t clk_rate)
 
 int8_t twi_transfer(struct twi_msg *msg)
 {
-  uint8_t twcr, i;
+  uint8_t twcr;
+  int8_t i = -2;
 
   /* send start condition */
   TWCR = _BV(TWINT) | _BV(TWSTA) | _BV(TWEN);
   /* wait */
-  while ((TWCR & _BV(TWINT)) == 0); 
+  while (!(TWCR & _BV(TWINT)));
 
   /* check error */
-  if (TW_STATUS != TW_START) {
-    i = -2;
+  if (TW_STATUS != TW_START)
     goto error;
-  }
 
   /* send slave address */
   if (msg->flags & TWI_M_RD)
@@ -44,7 +48,7 @@ int8_t twi_transfer(struct twi_msg *msg)
   /* start tx */
   TWCR = _BV(TWINT) | _BV(TWEN);
   /* wait */
-  while ((TWCR & _BV(TWINT)) == 0); 
+  while (!(TWCR & _BV(TWINT)));
 
   /* check ACK received */
   if (TW_STATUS != ((msg->flags & TWI_M_RD) ? TW_MR_SLA_ACK : TW_MT_SLA_ACK)) {
@@ -71,7 +75,7 @@ int8_t twi_transfer(struct twi_msg *msg)
 
   } else if (msg->flags & TWI_M_RD) {
     /* read mode */
-    
+
     twcr = _BV(TWINT) | _BV(TWEN) | _BV(TWEA);
     for (i = 0; i < msg->len; i++) {
       if (i == msg->len-1)
@@ -79,7 +83,7 @@ int8_t twi_transfer(struct twi_msg *msg)
 
       TWCR = twcr;
       /* wait rx */
-      while ((TWCR & _BV(TWINT)) == 0);
+      while (!(TWCR & _BV(TWINT)));
 
       msg->buf[i] = TWDR;
 
@@ -90,15 +94,16 @@ int8_t twi_transfer(struct twi_msg *msg)
         i = -5;
         goto error;
       }
-
     }
-
   }
 
 error:
   TWCR = _BV(TWINT)| _BV(TWEN)| _BV(TWSTO);
+  /* wait for STOP to finish */
+  while (TWCR & _BV(TWSTO));
 
+  /* disable TWI */
+  TWCR &= ~_BV(TWEN);
   return i+1;
 }
-
 
