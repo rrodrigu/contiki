@@ -29,8 +29,8 @@ PROCESS_THREAD(test_temp_process, ev, data)
 
     raw_temp = temperature_sensor.value(0);
 
-    printf("Temperature = %d.%d Celcius\n",
-        (raw_temp >> 4), (raw_temp & 0xf) * 625);
+    printf("Temperature = (%x) %d.%d Celcius\n",
+        raw_temp, (raw_temp >> 4), (raw_temp & 0xf) * 625);
 
   }
 
