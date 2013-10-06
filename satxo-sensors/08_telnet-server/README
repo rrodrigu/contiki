@@ -1,0 +1,5 @@
+This telnet example implements the Contiki shell application on a telnet server.
+It is basically the same as the previous example (shell example), but here the input/output are a TCP connection instead of a serial line.
+
+Compile and flash the application. Run tunslip as before, and connect to the server using netcat:
+$ nc 172.16.xxx.xxx 23

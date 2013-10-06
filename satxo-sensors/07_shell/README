@@ -1,0 +1,3 @@
+This shell example implements the Contiki shell application on a serial port.
+
+Compile and load the programm, then observe its output on a serial terminal. You will see a list of commands that you can run.

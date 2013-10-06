@@ -1,0 +1,3 @@
+The multi-threading example shows how to set up threads, and how to use preemption on them.
+Two threads are defined, the first implements an infinite loop without yielding. It therefore must be preempted. The second yields automatically after some execution.
+Whenever a thread yields or is preempted, the contiki normal execution process becomes running.

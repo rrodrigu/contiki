@@ -1,0 +1,3 @@
+This webserver example implements the Contiki webserver application.
+
+Compile and load the program, then run tunslip, and connect to the webserver using your favorite web browser.
