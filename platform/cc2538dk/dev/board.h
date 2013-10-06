@@ -111,8 +111,11 @@
  * - CTS: PB0 (Can only be used with UART1)
  * - RTS: PD3 (Can only be used with UART1)
  *
+ * We configure the port to use UART0. To use UART1, change UART_CONF_BASE
  * @{
  */
+#define UART_CONF_BASE           UART_0_BASE
+
 #define UART_RX_PORT             GPIO_A_NUM
 #define UART_RX_PIN              0
 
@@ -173,6 +176,22 @@
 
 /* Notify various examples that we have Buttons */
 #define PLATFORM_HAS_BUTTON      1
+/** @} */
+/*---------------------------------------------------------------------------*/
+/**
+ * \name SPI configuration
+ *
+ * These values configure which CC2538 pins to use for the SPI lines.
+ * @{
+ */
+#define CC2538_SPI_CLK_PORT_NUM  GPIO_A_NUM
+#define CC2538_SPI_CLK_PIN_NUM   2
+#define CC2538_SPI_MOSI_PORT_NUM GPIO_A_NUM
+#define CC2538_SPI_MOSI_PIN_NUM  4
+#define CC2538_SPI_MISO_PORT_NUM GPIO_A_NUM
+#define CC2538_SPI_MISO_PIN_NUM  5
+#define CC2538_SPI_SEL_PORT_NUM  GPIO_B_NUM
+#define CC2538_SPI_SEL_PIN_NUM   5
 /** @} */
 /*---------------------------------------------------------------------------*/
 /**
