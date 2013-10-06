@@ -268,6 +268,7 @@ static struct timer reass_timer;
 /*-------------------------------------------------------------------------*/
 static struct rime_sniffer *callback = NULL;
 
+/* RIC - multiple definition of rime_sniffer_add rime_sniffer_remove ???
 void
 rime_sniffer_add(struct rime_sniffer *s)
 {
@@ -279,6 +280,7 @@ rime_sniffer_remove(struct rime_sniffer *s)
 {
   callback = NULL;
 }
+*/
 
 static void
 set_packet_attrs()

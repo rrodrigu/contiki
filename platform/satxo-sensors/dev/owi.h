@@ -21,7 +21,7 @@
 #ifndef _ONEWIRE_H_
 #define _ONEWIRE_H_
 
-#include <ioavr.h>
+#include <avr/io.h>
 
 
 /****************************************************************************
@@ -51,7 +51,7 @@
  *
  *  If this symbol is defined, the internal pull-up resister on the GPIO pins 
  *  of the AVR will be used to generate the necessary pull-up on the bus. If 
- *  an external pull-up resistor is used, uncomment this define.
+ *  an external pull-up resistor is used, comment this define.
  */
 //#define     OWI_USE_INTERNAL_PULLUP
 
@@ -76,6 +76,8 @@
 #define     OWI_PIN_6       0x40
 #define     OWI_PIN_7       0x80
 
+#define     OWI_PIN_SERIAL  0x80
+
 
 /*****************************************************************************
  Timing parameters
@@ -83,14 +85,14 @@
 
 // Bit timing delays micro seconds
 #define     OWI_DELAY_A_STD_MODE    6
-#define     OWI_DELAY_B_STD_MODE    63
+#define     OWI_DELAY_B_STD_MODE    64
 #define     OWI_DELAY_C_STD_MODE    60
-#define     OWI_DELAY_D_STD_MODE    63
+#define     OWI_DELAY_D_STD_MODE    10
 #define     OWI_DELAY_E_STD_MODE    9
-#define     OWI_DELAY_F_STD_MODE    54
+#define     OWI_DELAY_F_STD_MODE    55
 //#define     OWI_DELAY_G_STD_MODE  ((0   * CPU_FREQUENCY) - OWI_DELAY_OFFSET_CYCLES) 
 #define     OWI_DELAY_H_STD_MODE    480
-#define     OWI_DELAY_I_STD_MODE    69
+#define     OWI_DELAY_I_STD_MODE    70
 #define     OWI_DELAY_J_STD_MODE    410
 
 /****************************************************************************

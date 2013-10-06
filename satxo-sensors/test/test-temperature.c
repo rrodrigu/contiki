@@ -12,8 +12,9 @@ AUTOSTART_PROCESSES(&test_temp_process);
 PROCESS_THREAD(test_temp_process, ev, data)
 {
   static struct etimer et;
+  static struct twi_msg msg;
   static int raw_temp;
-
+  
   PROCESS_BEGIN();
 
   /* turn on sensors power */

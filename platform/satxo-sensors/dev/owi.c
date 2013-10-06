@@ -21,10 +21,8 @@
 
 #include "owi.h"
 
-#include <ioavr.h>
-#include <inavr.h>
-
 #include <avr/io.h>
+#include <avr/interrupt.h>
 #include <util/delay.h>
 
 /****************************************************************************
@@ -41,10 +39,12 @@
  */
 void owi_init(unsigned char pins)
 {
-    OWI_RELEASE_BUS(pins);
+    OWI_PULL_BUS_LOW(pins);
     // The first rising edge can be interpreted by a slave as the end of a
     // Reset pulse. Delay for the required reset recovery time (H) to be 
     // sure that the real reset is interpreted correctly.
+    _delay_us(OWI_DELAY_H_STD_MODE);
+    OWI_RELEASE_BUS(pins);
     _delay_us(OWI_DELAY_H_STD_MODE);
 }
 
@@ -261,7 +261,7 @@ void owi_skip_rom(unsigned char pins)
  */
 void owi_read_rom(unsigned char * rom_value, unsigned char pin)
 {
-    unsigned char bytes_feft = 8;
+    unsigned char bytes_left = 8;
 
     // Send the READ ROM command on the bus.
     owi_send_byte(OWI_ROM_READ, pin);
